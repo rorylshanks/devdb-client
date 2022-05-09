@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const databaseCmd = require('./cmd/database.js')
 const snapshotCmd = require('./cmd/snapshot.js')
 
