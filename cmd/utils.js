@@ -16,7 +16,12 @@ function getAPIKey(argv) {
 }
 
 function getBaseURL() {
-    return "http://localhost:3000"
+    if (process.env.DEVDB_DEBUG_LOCAL == "true") {
+        return "http://localhost:3000"
+    } else {
+        return "https://app.devdb.cloud"
+    }
+    
 }
 
 function writeManifestFile(args, body) {
