@@ -1,1 +1,2 @@
-# devdb-client
+# DevDB Command Line Client
+

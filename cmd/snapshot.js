@@ -29,7 +29,8 @@ async function createSnapshot(args) {
         utils.writeManifestFile(args, JSON.stringify(body))
     } catch (error) {
         spinner.fail('Unable to create database')
-        console.log(error)
+        console.log(error.response.body)
+        process.exit(1)
     }
 
 }

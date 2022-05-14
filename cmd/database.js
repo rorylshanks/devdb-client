@@ -33,8 +33,8 @@ async function createDatabase(args) {
         utils.writeManifestFile(args, JSON.stringify(body))
     } catch (error) {
         spinner.fail('Unable to create database')
-        console.log(error)
-        console.log(body)
+        console.error(error.response.body)
+        process.exit(1)
     }
 
 }
@@ -59,8 +59,8 @@ async function listDatabases(args) {
         utils.writeManifestFile(args, JSON.stringify(body))
     } catch (error) {
         spinner.fail('Unable to create database')
-        console.log(error)
-        console.log(body)
+        console.error(error.response.body)
+        process.exit(1)
     }
 }
 
@@ -81,9 +81,8 @@ async function deleteDatabase(args) {
         });
         spinner.succeed('Database ' + (args.id || args.name) + ' deleted!')
     } catch (error) {
-        console.log(error)
-        console.log(body)
-        spinner.fail('Unable to delete database')
+        console.error(error.response.body)
+        process.exit(1)
     }
 
 }
