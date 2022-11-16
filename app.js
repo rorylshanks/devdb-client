@@ -28,6 +28,16 @@ require('yargs/yargs')(process.argv.slice(2))
             snapshot: {
                 alias: 's',
                 describe: 'Snapshot to create the database from'
+            },
+            proxy: {
+                alias: 'p',
+                describe: 'Start devdb client in proxy mode'
+            },
+            username: {
+                describe: 'Desired username to use for the database (WARNING, can be insecure). When unset a random username will be generated'
+            },
+            password: {
+                describe: 'Desired password to use for the database (WARNING, can be insecure). When unset a random password will be generated'
             }
         },
         handler: databaseCmd.createDatabase

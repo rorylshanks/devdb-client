@@ -10,7 +10,9 @@ async function createDatabase(args) {
     var apiKey = utils.getAPIKey(args);
     var bodyToPost = {
         type: args.type,
-        snapshot: args.snapshot
+        snapshot: args.snapshot,
+        password: args.password,
+        username: args.username
     }
     try {
         var spinner = ora(chalk.bold('Creating database of type ' + args.type +' on devdb cloud...')).start();
@@ -24,12 +26,20 @@ async function createDatabase(args) {
         spinner.succeed('Database created!')
         console.log("Please use the below connection details to connect to your database")
         var resultsTable = []
-        resultsTable.push([chalk.bold("ID"), body.id])
+        resultsTable.push([chalk.bold("Database ID"), body.id])
         resultsTable.push([chalk.bold("Username"), body.username])
         resultsTable.push([chalk.bold("Password"), body.password])
         resultsTable.push([chalk.bold("Hostname"), body.endpoint])
         resultsTable.push([chalk.bold("Port"), body.port])
         console.log(table(resultsTable))
+        if (args.type == "mysql57") {
+            console.log(`Connect to the server with the below command line`);
+            console.log(`mysql -h${body.endpoint} -u${body.username} -p${body.password} -P ${body.port}`)
+        }
+        if (args.type == "pg13") {
+            console.log(`Connect to the server with the below command line`);
+            console.log(`PGPASSWORD="${body.password}" psql -h ${body.endpoint} -U ${body.username} -p ${body.port}`)
+        }
         utils.writeManifestFile(args, JSON.stringify(body))
     } catch (error) {
         spinner.fail('Unable to create database')
@@ -51,7 +61,7 @@ async function listDatabases(args) {
         });
         spinner.stop()
         var resultsTable = []
-        resultsTable.push([chalk.bold("ID"), chalk.bold("Name"), chalk.bold("Endpoint"), chalk.bold("Port"), chalk.bold("Type"), chalk.bold("Created")])
+        resultsTable.push([chalk.bold("Database ID"), chalk.bold("Name"), chalk.bold("Endpoint"), chalk.bold("Port"), chalk.bold("Type"), chalk.bold("Created")])
         for (db of body) {
             resultsTable.push([db.id, db.name, db.endpoint, db.port, db.type, db.created])
         }

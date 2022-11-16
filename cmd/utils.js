@@ -11,7 +11,7 @@ function getAPIKey(argv) {
     console.log(chalk.red('User is not authenticated!'));
     console.log("Please ensure the correct API key is being used with the --apiKey command line flag");
     console.log("or with the environment variable DEVDB_API_KEY");
-    console.log("If you do not have an API Key, please create an account at https://debdb.cloud");
+    console.log("If you do not have an API Key, please create an account at https://devdb.cloud");
     process.exit(1)
 }
 

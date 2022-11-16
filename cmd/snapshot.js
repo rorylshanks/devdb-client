@@ -22,9 +22,8 @@ async function createSnapshot(args) {
             }
         });
         spinner.succeed('Snapshot created!')
-        console.log("Please use the below connection details to connect to your database")
         var resultsTable = []
-        resultsTable.push([chalk.bold("ID"), body.snapshotId])
+        resultsTable.push([chalk.bold("Snapshot ID"), body.snapshotId])
         console.log(table(resultsTable))
         utils.writeManifestFile(args, JSON.stringify(body))
     } catch (error) {
@@ -47,14 +46,14 @@ async function listSnapshots(args) {
         });
         spinner.stop()
         var resultsTable = []
-        resultsTable.push([chalk.bold("ID"), chalk.bold("Name"), chalk.bold("Type"), chalk.bold("Created")])
+        resultsTable.push([chalk.bold("Snapshot ID"), chalk.bold("Name"), chalk.bold("Type"), chalk.bold("Created")])
         for (db of body) {
             resultsTable.push([db.id, db.name, db.type, db.created])
         }
         console.log(table(resultsTable))
         utils.writeManifestFile(args, JSON.stringify(body))
     } catch (error) {
-        spinner.fail('Unable to create database')
+        spinner.fail('Unable to create snapshot')
         console.log(error)
         console.log(body)
     }
@@ -63,7 +62,7 @@ async function listSnapshots(args) {
 async function deleteSnapshot(args) {
     var apiKey = utils.getAPIKey(args);
     try {
-        var spinner = ora(chalk.bold('Deleting database ' + (args.id || args.name) + '...')).start();
+        var spinner = ora(chalk.bold('Deleting snapshot ' + (args.id || args.name) + '...')).start();
         var bodyToPost = {
             name: args.name,
             id: args.id
@@ -79,7 +78,7 @@ async function deleteSnapshot(args) {
     } catch (error) {
         console.log(error)
         console.log(body)
-        spinner.fail('Unable to delete database')
+        spinner.fail('Unable to delete snapshot')
     }
 
 }
