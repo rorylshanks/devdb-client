@@ -27,7 +27,7 @@ async function createSnapshot(args) {
         console.log(table(resultsTable))
         utils.writeManifestFile(args, JSON.stringify(body))
     } catch (error) {
-        spinner.fail('Unable to create database')
+        spinner.fail('Unable to create snapshot')
         console.log(error.response.body)
         process.exit(1)
     }
@@ -83,8 +83,33 @@ async function deleteSnapshot(args) {
 
 }
 
+async function rollbackDatabaseToSnapshot(args) {
+    var apiKey = utils.getAPIKey(args);
+    try {
+        var spinner = ora(chalk.bold(`Rolling back database ${args.db} to snapshot ${args.id || args.name}...`)).start();
+        var bodyToPost = {
+            dbId: args.db,
+            snapshotId: args.id
+        }
+        const { body } = await got.post(baseURL + '/api/v1/database/rollback', {
+            json: bodyToPost,
+            responseType: 'json',
+            headers: {
+                "x-api-key": apiKey
+            }
+        });
+        spinner.succeed('Database rolled back!')
+    } catch (error) {
+        console.log(error)
+        console.log(body)
+        spinner.fail('Unable to rollback')
+    }
+
+}
+
 module.exports = {
     createSnapshot,
     listSnapshots,
-    deleteSnapshot
+    deleteSnapshot,
+    rollbackDatabaseToSnapshot
 }

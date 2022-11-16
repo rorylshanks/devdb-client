@@ -107,6 +107,22 @@ require('yargs/yargs')(process.argv.slice(2))
         },
         handler: snapshotCmd.deleteSnapshot
     })
+    .command({
+        command: 'rollback-database',
+        aliases: ['rb'],
+        desc: 'Rollback database',
+        builder: {
+            id: {
+                alias: 'i',
+                describe: 'ID of the snapshot to rollback to'
+            },
+            db: {
+                alias: 'd',
+                describe: 'ID of the database'
+            }
+        },
+        handler: snapshotCmd.rollbackDatabaseToSnapshot
+    })
     .options({
         apikey: {
           alias: 'k',
