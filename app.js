@@ -31,7 +31,10 @@ require('yargs/yargs')(process.argv.slice(2))
             },
             proxy: {
                 alias: 'p',
-                describe: 'Start devdb client in proxy mode'
+                describe: 'Start devdb client in proxy mode (requires socat to be installed, unless running in Docker)'
+            },
+            proxyPort: {
+                describe: 'Local port to listen on for proxy mode'
             },
             username: {
                 describe: 'Desired username to use for the database (WARNING, can be insecure). When unset a random username will be generated'

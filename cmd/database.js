@@ -3,6 +3,7 @@ const utils = require('./utils.js')
 const chalk = require('chalk');
 const ora = require('ora');
 const { table } = require('table')
+var proxy = require("./proxy.js");
 
 var baseURL = utils.getBaseURL()
 
@@ -41,6 +42,16 @@ async function createDatabase(args) {
             console.log(`PGPASSWORD="${body.password}" psql -h ${body.endpoint} -U ${body.username} -p ${body.port}`)
         }
         utils.writeManifestFile(args, JSON.stringify(body))
+
+        if (args.proxy) {
+            try {
+                var localProxyPort = args.proxyPort || utils.getLocalPort(args.type)
+                console.log(`Starting proxy mode on port ${localProxyPort}`)
+                var localProxy = proxy.createProxy(localProxyPort, body.endpoint, body.port);
+            } catch (error) {
+                console.error(error)
+            }
+        }
     } catch (error) {
         spinner.fail('Unable to create database')
         console.error(error.response.body)

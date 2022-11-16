@@ -30,8 +30,19 @@ function writeManifestFile(args, body) {
     }
 }
 
+function getLocalPort(type) {
+    if (type.includes("mysql57")) {
+        return 3306
+    }
+    if (type.includes("pg")) {
+        return 5432
+    }
+    return 3306
+}
+
 module.exports = {
     getAPIKey,
     getBaseURL,
-    writeManifestFile
+    writeManifestFile,
+    getLocalPort
 }
