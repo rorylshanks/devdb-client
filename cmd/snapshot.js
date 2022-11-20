@@ -13,7 +13,7 @@ async function createSnapshot(args) {
         name: args.name
     }
     try {
-        var spinner = ora(chalk.bold('Creating snapshot from source ' + args.source +' on devdb cloud...')).start();
+        var spinner = ora(chalk.bold('Creating snapshot from source ' + args.source + ' on devdb cloud...')).start();
         const { body } = await got.post(baseURL + '/api/v1/snapshot', {
             json: bodyToPost,
             responseType: 'json',

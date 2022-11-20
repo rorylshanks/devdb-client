@@ -2,6 +2,7 @@
 
 const databaseCmd = require('./cmd/database.js')
 const snapshotCmd = require('./cmd/snapshot.js')
+const imageCmd = require('./cmd/image.js')
 
 require('yargs/yargs')(process.argv.slice(2))
     .command({
@@ -52,31 +53,16 @@ require('yargs/yargs')(process.argv.slice(2))
         handler: databaseCmd.listDatabases
     })
     .command({
-        command: 'delete-database',
+        command: 'delete-database <id>',
         aliases: ['delete', 'rm'],
         desc: 'Delete database from devdb cloud',
-        builder: {
-            id: {
-                alias: 'i',
-                describe: 'ID of the database to delete'
-            },
-            name: {
-                alias: 'n',
-                describe: 'Name of the database to delete (must be unique)'
-            }
-        },
         handler: databaseCmd.deleteDatabase
     })
     .command({
-        command: 'create-snapshot',
+        command: 'create-snapshot <source>',
         aliases: ['snapshot'],
         desc: 'Create s snapshot from an existing database',
         builder: {
-            source: {
-                alias: 's',
-                describe: 'The source database ID that you want to snapshot',
-                demandOption: true
-            },
             name: {
                 alias: 'n',
                 describe: 'Name of the created snapshot',
@@ -86,36 +72,40 @@ require('yargs/yargs')(process.argv.slice(2))
         handler: snapshotCmd.createSnapshot
     })
     .command({
+        command: 'create-image',
+        aliases: ['ci'],
+        desc: 'Create image from running database',
+        builder: {
+            source: {
+                alias: 's',
+                describe: 'The source database ID that you want to create the image from',
+                demandOption: true
+            },
+            name: {
+                alias: 'n',
+                describe: 'Name of the created image',
+                demandOption: true
+            }
+        },
+        handler: imageCmd.createImage
+    })
+    .command({
         command: 'list-snapshots',
         aliases: ['ls'],
         desc: 'List all snapshots',
         handler: snapshotCmd.listSnapshots
     })
     .command({
-        command: 'delete-snapshot',
+        command: 'delete-snapshot <id>',
         aliases: ['rms'],
         desc: 'Delete snapshot from DevDB',
-        builder: {
-            id: {
-                alias: 'i',
-                describe: 'ID of the snapshot to delete'
-            },
-            name: {
-                alias: 'n',
-                describe: 'Name of the snapshot to delete (must be unique)'
-            }
-        },
         handler: snapshotCmd.deleteSnapshot
     })
     .command({
-        command: 'rollback-database',
+        command: 'rollback-database <id>',
         aliases: ['rb'],
         desc: 'Rollback database',
         builder: {
-            id: {
-                alias: 'i',
-                describe: 'ID of the snapshot to rollback to'
-            },
             db: {
                 alias: 'd',
                 describe: 'ID of the database'
