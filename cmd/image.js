@@ -47,10 +47,10 @@ async function listImages(args) {
         });
         spinner.stop()
         var resultsTable = []
-        resultsTable.push([chalk.bold("Image ID"), chalk.bold("Name"), chalk.bold("Type"), chalk.bold("Created")])
+        resultsTable.push([chalk.bold("Image ID"), chalk.bold("Name"), chalk.bold("Type"), chalk.bold("Size"), chalk.bold("Created")])
         for (db of body) {
             if (db.isImage) {
-                resultsTable.push([db.id, db.name, db.type, db.created])
+                resultsTable.push([db.id, db.name, db.type, utils.formatBytes(db.size), db.created])
             }
             
         }

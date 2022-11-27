@@ -96,6 +96,12 @@ require('yargs/yargs')(process.argv.slice(2))
         handler: snapshotCmd.listSnapshots
     })
     .command({
+        command: 'list-images',
+        aliases: ['li'],
+        desc: 'List all images',
+        handler: imageCmd.listImages
+    })
+    .command({
         command: 'delete-snapshot <id>',
         aliases: ['rms'],
         desc: 'Delete snapshot from DevDB',

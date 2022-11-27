@@ -72,9 +72,9 @@ async function listDatabases(args) {
         });
         spinner.stop()
         var resultsTable = []
-        resultsTable.push([chalk.bold("Database ID"), chalk.bold("Name"), chalk.bold("Endpoint"), chalk.bold("Port"), chalk.bold("Type"), chalk.bold("Created")])
+        resultsTable.push([chalk.bold("Database ID"), chalk.bold("Name"), chalk.bold("Endpoint"), chalk.bold("Port"), chalk.bold("Type"), chalk.bold("Type"), chalk.bold("Created")])
         for (db of body) {
-            resultsTable.push([db.id, db.name, db.endpoint, db.port, db.type, db.created])
+            resultsTable.push([db.id, db.name, db.endpoint, db.port, db.type, utils.formatBytes(db.size), db.created])
         }
         console.log(table(resultsTable))
         utils.writeManifestFile(args, JSON.stringify(body))

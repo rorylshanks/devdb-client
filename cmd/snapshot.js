@@ -46,9 +46,12 @@ async function listSnapshots(args) {
         });
         spinner.stop()
         var resultsTable = []
-        resultsTable.push([chalk.bold("Snapshot ID"), chalk.bold("Name"), chalk.bold("Type"), chalk.bold("Created")])
+        resultsTable.push([chalk.bold("Snapshot ID"), chalk.bold("Name"), chalk.bold("Type"), chalk.bold("Size"), chalk.bold("Created")])
         for (db of body) {
-            resultsTable.push([db.id, db.name, db.type, db.created])
+            if (!db.isImage) {
+                resultsTable.push([db.id, db.name, db.type, utils.formatBytes(db.size), db.created])
+            }
+            
         }
         console.log(table(resultsTable))
         utils.writeManifestFile(args, JSON.stringify(body))
