@@ -9,11 +9,11 @@ var baseURL = utils.getBaseURL()
 async function createSnapshot(args) {
     var apiKey = utils.getAPIKey(args);
     var bodyToPost = {
-        dbId: args.source,
+        dbId: args.databaseId,
         name: args.name
     }
     try {
-        var spinner = ora(chalk.bold('Creating snapshot from source ' + args.source + ' on devdb cloud...')).start();
+        var spinner = ora(chalk.bold('Creating snapshot from source ' + args.databaseId + ' on devdb cloud...')).start();
         const { body } = await got.post(baseURL + '/api/v1/snapshot', {
             json: bodyToPost,
             responseType: 'json',
@@ -65,10 +65,9 @@ async function listSnapshots(args) {
 async function deleteSnapshot(args) {
     var apiKey = utils.getAPIKey(args);
     try {
-        var spinner = ora(chalk.bold('Deleting snapshot ' + (args.id || args.name) + '...')).start();
+        var spinner = ora(chalk.bold('Deleting snapshot ' + args.snapshotId + '...')).start();
         var bodyToPost = {
-            name: args.name,
-            id: args.id
+            id: args.snapshotId
         }
         const { body } = await got.delete(baseURL + '/api/v1/snapshot', {
             json: bodyToPost,
@@ -77,7 +76,7 @@ async function deleteSnapshot(args) {
                 "x-api-key": apiKey
             }
         });
-        spinner.succeed('Snapshot ' + (args.id || args.name) + ' deleted!')
+        spinner.succeed('Snapshot ' + args.snapshotId + ' deleted!')
     } catch (error) {
         console.log(error)
         console.log(body)

@@ -88,10 +88,9 @@ async function listDatabases(args) {
 async function deleteDatabase(args) {
     var apiKey = utils.getAPIKey(args);
     try {
-        var spinner = ora(chalk.bold('Deleting database ' + (args.id || args.name) + '...')).start();
+        var spinner = ora(chalk.bold('Deleting database ' + args.databaseId + '...')).start();
         var bodyToPost = {
-            name: args.name,
-            id: args.id
+            id: args.databaseId
         }
         const { body } = await got.delete(baseURL + '/api/v1/database', {
             json: bodyToPost,
@@ -100,7 +99,7 @@ async function deleteDatabase(args) {
                 "x-api-key": apiKey
             }
         });
-        spinner.succeed('Database ' + (args.id || args.name) + ' deleted!')
+        spinner.succeed('Database ' + (args.databaseId) + ' deleted!')
     } catch (error) {
         console.error(error.response.body)
         process.exit(1)

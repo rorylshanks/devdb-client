@@ -8,7 +8,7 @@ require('yargs/yargs')(process.argv.slice(2))
     .command({
         command: 'create-database',
         aliases: ['create', 'up'],
-        desc: 'Launch a database in devdb cloud',
+        desc: 'Launch a database',
         builder: {
             type: {
                 alias: 't',
@@ -49,19 +49,19 @@ require('yargs/yargs')(process.argv.slice(2))
     .command({
         command: 'list-databases',
         aliases: ['ld', 'list'],
-        desc: 'List databases in devdb cloud',
+        desc: 'List databases',
         handler: databaseCmd.listDatabases
     })
     .command({
-        command: 'delete-database <id>',
+        command: 'delete-database <databaseId>',
         aliases: ['delete', 'rm'],
-        desc: 'Delete database from devdb cloud',
+        desc: 'Delete database',
         handler: databaseCmd.deleteDatabase
     })
     .command({
-        command: 'create-snapshot <source>',
+        command: 'create-snapshot <databaseId>',
         aliases: ['snapshot'],
-        desc: 'Create s snapshot from an existing database',
+        desc: 'Create a snapshot from an existing database',
         builder: {
             name: {
                 alias: 'n',
@@ -72,7 +72,7 @@ require('yargs/yargs')(process.argv.slice(2))
         handler: snapshotCmd.createSnapshot
     })
     .command({
-        command: 'create-image',
+        command: 'create-image <databaseId>',
         aliases: ['ci'],
         desc: 'Create image from running database',
         builder: {
@@ -90,7 +90,7 @@ require('yargs/yargs')(process.argv.slice(2))
         handler: imageCmd.createImage
     })
     .command({
-        command: 'list-snapshots',
+        command: 'list-snapshots <databaseId>',
         aliases: ['ls'],
         desc: 'List all snapshots',
         handler: snapshotCmd.listSnapshots
@@ -102,13 +102,19 @@ require('yargs/yargs')(process.argv.slice(2))
         handler: imageCmd.listImages
     })
     .command({
-        command: 'delete-snapshot <id>',
+        command: 'delete-snapshot <snapshotId>',
         aliases: ['rms'],
         desc: 'Delete snapshot from DevDB',
         handler: snapshotCmd.deleteSnapshot
     })
     .command({
-        command: 'rollback-database <id>',
+        command: 'delete-image <imageId>',
+        aliases: ['rms'],
+        desc: 'Delete image from DevDB',
+        handler: snapshotCmd.deleteSnapshot
+    })
+    .command({
+        command: 'rollback-database <databaseId>',
         aliases: ['rb'],
         desc: 'Rollback database',
         builder: {

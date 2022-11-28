@@ -9,12 +9,12 @@ var baseURL = utils.getBaseURL()
 async function createImage(args) {
     var apiKey = utils.getAPIKey(args);
     var bodyToPost = {
-        dbId: args.source,
+        dbId: args.databaseId,
         name: args.name,
         image: true
     }
     try {
-        var spinner = ora(chalk.bold('Creating image from source ' + args.source +' on devdb cloud...')).start();
+        var spinner = ora(chalk.bold('Creating image from source ' + args.databaseId +' on devdb cloud...')).start();
         const { body } = await got.post(baseURL + '/api/v1/snapshot', {
             json: bodyToPost,
             responseType: 'json',
@@ -66,10 +66,9 @@ async function listImages(args) {
 async function deleteImage(args) {
     var apiKey = utils.getAPIKey(args);
     try {
-        var spinner = ora(chalk.bold('Deleting image ' + (args.id || args.name) + '...')).start();
+        var spinner = ora(chalk.bold('Deleting image ' + args.imageId + '...')).start();
         var bodyToPost = {
-            name: args.name,
-            id: args.id
+            id: args.imageId
         }
         const { body } = await got.delete(baseURL + '/api/v1/snapshot', {
             json: bodyToPost,
@@ -78,7 +77,7 @@ async function deleteImage(args) {
                 "x-api-key": apiKey
             }
         });
-        spinner.succeed('Image ' + (args.id || args.name) + ' deleted!')
+        spinner.succeed('Image ' + args.imageId + ' deleted!')
     } catch (error) {
         console.log(error)
         console.log(body)
