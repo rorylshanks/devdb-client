@@ -10,10 +10,12 @@ var baseURL = utils.getBaseURL()
 async function createDatabase(args) {
     var apiKey = utils.getAPIKey(args);
     var bodyToPost = {
+        name: args.name,
         type: args.type,
         snapshot: args.snapshot,
         password: args.password,
-        username: args.username
+        username: args.username,
+        reconnect: args.reconnect
     }
     try {
         var spinner = ora(chalk.bold('Creating database of type ' + args.type +' on devdb cloud...')).start();

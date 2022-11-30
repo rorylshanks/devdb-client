@@ -42,6 +42,9 @@ require('yargs/yargs')(process.argv.slice(2))
             },
             password: {
                 describe: 'Desired password to use for the database (WARNING, can be insecure). When unset a random password will be generated'
+            },
+            reconnect: {
+                describe: 'Reconnect to the database with the specified name, if it exists. If it doesnt exist, it will create normally.'
             }
         },
         handler: databaseCmd.createDatabase
@@ -65,8 +68,7 @@ require('yargs/yargs')(process.argv.slice(2))
         builder: {
             name: {
                 alias: 'n',
-                describe: 'Name of the created snapshot',
-                demandOption: true
+                describe: 'Name of the created snapshot'
             }
         },
         handler: snapshotCmd.createSnapshot
@@ -114,13 +116,13 @@ require('yargs/yargs')(process.argv.slice(2))
         handler: snapshotCmd.deleteSnapshot
     })
     .command({
-        command: 'rollback-database <databaseId>',
+        command: 'rollback-database <databaseId> [snapshotId]',
         aliases: ['rb'],
         desc: 'Rollback database',
         builder: {
-            db: {
-                alias: 'd',
-                describe: 'ID of the database'
+            snapshotId: {
+                alias: 'snapshot',
+                describe: 'ID of the snapshot to rollback to. Defaults to the most recent snapshot'
             }
         },
         handler: snapshotCmd.rollbackDatabaseToSnapshot

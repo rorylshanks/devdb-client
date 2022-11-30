@@ -49,7 +49,7 @@ async function listImages(args) {
         var resultsTable = []
         resultsTable.push([chalk.bold("Image ID"), chalk.bold("Name"), chalk.bold("Type"), chalk.bold("Size"), chalk.bold("Created")])
         for (db of body) {
-            if (db.isImage) {
+            if (db.isImage == "1") {
                 resultsTable.push([db.id, db.name, db.type, utils.formatBytes(db.size), db.created])
             }
             
@@ -58,8 +58,7 @@ async function listImages(args) {
         utils.writeManifestFile(args, JSON.stringify(body))
     } catch (error) {
         spinner.fail('Unable to create image')
-        console.log(error)
-        console.log(body)
+console.log(error.response.body)
     }
 }
 
@@ -79,8 +78,7 @@ async function deleteImage(args) {
         });
         spinner.succeed('Image ' + args.imageId + ' deleted!')
     } catch (error) {
-        console.log(error)
-        console.log(body)
+console.log(error.response.body)
         spinner.fail('Unable to delete image')
     }
 

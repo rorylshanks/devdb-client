@@ -48,7 +48,7 @@ async function listSnapshots(args) {
         var resultsTable = []
         resultsTable.push([chalk.bold("Snapshot ID"), chalk.bold("Name"), chalk.bold("Type"), chalk.bold("Size"), chalk.bold("Created")])
         for (db of body) {
-            if (!db.isImage) {
+            if (db.isImage == "0") {
                 resultsTable.push([db.id, db.name, db.type, utils.formatBytes(db.size), db.created])
             }
             
@@ -57,8 +57,7 @@ async function listSnapshots(args) {
         utils.writeManifestFile(args, JSON.stringify(body))
     } catch (error) {
         spinner.fail('Unable to create snapshot')
-        console.log(error)
-        console.log(body)
+        console.log(error.response.body)
     }
 }
 
@@ -78,8 +77,7 @@ async function deleteSnapshot(args) {
         });
         spinner.succeed('Snapshot ' + args.snapshotId + ' deleted!')
     } catch (error) {
-        console.log(error)
-        console.log(body)
+        console.log(error.response.body)
         spinner.fail('Unable to delete snapshot')
     }
 
@@ -88,12 +86,12 @@ async function deleteSnapshot(args) {
 async function rollbackDatabaseToSnapshot(args) {
     var apiKey = utils.getAPIKey(args);
     try {
-        var spinner = ora(chalk.bold(`Rolling back database ${args.db} to snapshot ${args.id || args.name}...`)).start();
+        var spinner = ora(chalk.bold(`Rolling back database ${args.databaseId} to snapshot ${args.snapshotId || "latest"}...`)).start();
         var bodyToPost = {
-            dbId: args.db,
-            snapshotId: args.id
+            dbId: args.databaseId,
+            snapshotId: args.snapshotId
         }
-        const { body } = await got.post(baseURL + '/api/v1/database/rollback', {
+        await got.post(baseURL + '/api/v1/database/rollback', {
             json: bodyToPost,
             responseType: 'json',
             headers: {
@@ -102,8 +100,7 @@ async function rollbackDatabaseToSnapshot(args) {
         });
         spinner.succeed('Database rolled back!')
     } catch (error) {
-        console.log(error)
-        console.log(body)
+        console.log(error.response.body)
         spinner.fail('Unable to rollback')
     }
 
