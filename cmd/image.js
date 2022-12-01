@@ -10,7 +10,7 @@ async function createImage(args) {
     var apiKey = utils.getAPIKey(args);
     var bodyToPost = {
         dbId: args.databaseId,
-        name: args.name,
+        name: args.snapshotName,
         image: true
     }
     try {

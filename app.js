@@ -62,11 +62,11 @@ require('yargs/yargs')(process.argv.slice(2))
         handler: databaseCmd.deleteDatabase
     })
     .command({
-        command: 'create-snapshot <databaseId>',
+        command: 'create-snapshot <databaseId> [snapshotName]',
         aliases: ['snapshot'],
         desc: 'Create a snapshot from an existing database',
         builder: {
-            name: {
+            snapshotName: {
                 alias: 'n',
                 describe: 'Name of the created snapshot'
             }
@@ -74,16 +74,11 @@ require('yargs/yargs')(process.argv.slice(2))
         handler: snapshotCmd.createSnapshot
     })
     .command({
-        command: 'create-image <databaseId>',
+        command: 'create-image <databaseId> [snapshotName]',
         aliases: ['ci'],
         desc: 'Create image from running database',
         builder: {
-            source: {
-                alias: 's',
-                describe: 'The source database ID that you want to create the image from',
-                demandOption: true
-            },
-            name: {
+            snapshotName: {
                 alias: 'n',
                 describe: 'Name of the created image',
                 demandOption: true
@@ -113,7 +108,7 @@ require('yargs/yargs')(process.argv.slice(2))
         command: 'delete-image <imageId>',
         aliases: ['rms'],
         desc: 'Delete image from DevDB',
-        handler: snapshotCmd.deleteSnapshot
+        handler: imageCmd.deleteImage
     })
     .command({
         command: 'rollback-database <databaseId> [snapshotId]',
