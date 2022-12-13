@@ -48,7 +48,7 @@ async function listSnapshots(args) {
         var resultsTable = []
         resultsTable.push([chalk.bold("Snapshot ID"), chalk.bold("Name"), chalk.bold("Type"), chalk.bold("Size"), chalk.bold("Created")])
         for (db of body) {
-            if (db.isImage == "0") {
+            if ((db.isImage == "0") && (db.sourceDbId == args.databaseId)) {
                 resultsTable.push([db.id, db.name, db.type, utils.formatBytes(db.size), db.created])
             }
             

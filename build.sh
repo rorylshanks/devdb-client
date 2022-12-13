@@ -1,3 +1,3 @@
 #!/bin/bash
-docker build . -t megalan247/devdb-cli:latest
-docker push megalan247/devdb-cli:latest
+docker build . -t docker.devdb.cloud/devdb-cli:latest
+docker push docker.devdb.cloud/devdb-cli:latest

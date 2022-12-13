@@ -112,7 +112,7 @@ require('yargs/yargs')(process.argv.slice(2))
     })
     .command({
         command: 'rollback-database <databaseId> [snapshotId]',
-        aliases: ['rb'],
+        aliases: ['rb', 'rollback'],
         desc: 'Rollback database',
         builder: {
             snapshotId: {
