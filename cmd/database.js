@@ -109,8 +109,34 @@ async function deleteDatabase(args) {
 
 }
 
+async function getDatabaseTypes(args) {
+    var apiKey = utils.getAPIKey(args);
+    try {
+        var spinner = ora(chalk.bold('Grabbing database types from DevDB Cloud...')).start();
+        const { body } = await got.get(baseURL + '/api/v1/database-types', {
+            responseType: 'json',
+            headers: {
+                "x-api-key": apiKey
+            }
+        });
+        spinner.stop()
+        var resultsTable = []
+        resultsTable.push([chalk.bold("Database Slug"), chalk.bold("Database Name")])
+        for (db of body) {
+            resultsTable.push([db.slug, db.name])
+        }
+        console.log(table(resultsTable))
+        utils.writeManifestFile(args, JSON.stringify(body))
+    } catch (error) {
+        spinner.fail('Unable to create database')
+        console.error(error.response.body)
+        process.exit(1)
+    }
+}
+
 module.exports = {
     createDatabase,
     listDatabases,
-    deleteDatabase
+    deleteDatabase,
+    getDatabaseTypes
 }

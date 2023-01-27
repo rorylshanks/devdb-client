@@ -56,6 +56,11 @@ require('yargs/yargs')(process.argv.slice(2))
         handler: databaseCmd.listDatabases
     })
     .command({
+        command: 'get-database-types',
+        desc: 'Get available database types',
+        handler: databaseCmd.getDatabaseTypes
+    })
+    .command({
         command: 'delete-database <databaseId>',
         aliases: ['delete', 'rm'],
         desc: 'Delete database',
