@@ -13,10 +13,6 @@ require('yargs/yargs')(process.argv.slice(2))
             type: {
                 alias: 't',
                 describe: 'The type of database you want to create in devdb',
-                choices: [
-                    "mysql57",
-                    "pg13"
-                ],
                 demandOption: true
             },
             name: {
