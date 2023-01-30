@@ -19,12 +19,9 @@ require('yargs/yargs')(process.argv.slice(2))
                 alias: 'n',
                 describe: 'Name of the created database'
             },
-            description: {
-                describe: 'Description of the created database'
-            },
-            snapshot: {
-                alias: 's',
-                describe: 'Snapshot to create the database from'
+            image: {
+                alias: 'i',
+                describe: 'Image to create the database from'
             },
             proxy: {
                 alias: 'p',
