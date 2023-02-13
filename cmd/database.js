@@ -49,7 +49,7 @@ async function createDatabase(args) {
             try {
                 var localProxyPort = args.proxyPort || utils.getLocalPort(args.type)
                 console.log(`Starting proxy mode on port ${localProxyPort}`)
-                var localProxy = proxy.createProxy(localProxyPort, body.endpoint, body.port);
+                var localProxy = proxy.createProxy(localProxyPort, body.endpoint, body.tls_certificate, body.tls_private_key);
             } catch (error) {
                 console.error(error)
             }
