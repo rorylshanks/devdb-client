@@ -16,8 +16,8 @@ function getAPIKey(argv) {
 }
 
 function getBaseURL() {
-    if (process.env.DEVDB_DEBUG_LOCAL == "true") {
-        return "http://localhost:3000"
+    if (process.env.DEVDB_URL) {
+        return process.env.DEVDB_URL
     } else {
         return "https://app.devdb.cloud"
     }
@@ -31,7 +31,7 @@ function writeManifestFile(args, body) {
 }
 
 function getLocalPort(type) {
-    if (type.includes("mysql57")) {
+    if (type.includes("mysql")) {
         return 3306
     }
     if (type.includes("pg")) {

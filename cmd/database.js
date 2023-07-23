@@ -35,11 +35,11 @@ async function createDatabase(args) {
         resultsTable.push([chalk.bold("Hostname"), body.endpoint])
         resultsTable.push([chalk.bold("Port"), body.port])
         console.log(table(resultsTable))
-        if (args.type == "mysql57") {
+        if (args.type.includes("mysql")) {
             console.log(`Connect to the server with the below command line`);
             console.log(`mysql -h${body.endpoint} -u${body.username} -p${body.password} -P ${body.port}`)
         }
-        if (args.type == "pg13") {
+        if (args.type.includes("pg13")) {
             console.log(`Connect to the server with the below command line`);
             console.log(`PGPASSWORD="${body.password}" psql -h ${body.endpoint} -U ${body.username} -p ${body.port}`)
         }
