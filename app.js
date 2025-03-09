@@ -38,6 +38,9 @@ require('yargs/yargs')(process.argv.slice(2))
             },
             reconnect: {
                 describe: 'Reconnect to the database with the specified name, if it exists. If it doesnt exist, it will create normally.'
+            },
+            public: {
+                describe: 'Database should be created as a public database? Make sure to use a strong username and password combo when using this option'
             }
         },
         handler: databaseCmd.createDatabase

@@ -12,10 +12,11 @@ async function createDatabase(args) {
     var bodyToPost = {
         name: args.name,
         type: args.type,
-        snapshot: args.snapshot,
+        snapshot: args.image,
         password: args.password,
         username: args.username,
-        reconnect: args.reconnect
+        reconnect: args.reconnect,
+        public: args.public || false
     }
     try {
         var spinner = ora(chalk.bold('Creating database of type ' + args.type +' on devdb cloud...')).start();
@@ -39,7 +40,7 @@ async function createDatabase(args) {
             console.log(`Connect to the server with the below command line`);
             console.log(`mysql -h${body.endpoint} -u${body.username} -p${body.password} -P ${body.port}`)
         }
-        if (args.type.includes("pg13")) {
+        if (args.type.includes("pg")) {
             console.log(`Connect to the server with the below command line`);
             console.log(`PGPASSWORD="${body.password}" psql -h ${body.endpoint} -U ${body.username} -p ${body.port}`)
         }
